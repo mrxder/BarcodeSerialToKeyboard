@@ -5,13 +5,11 @@ import time
 import tkinter as tk
 from threading import Thread
 
-debug = True
-
 
 def Scanner(kostenKontoEntry, run):
 
-    if not debug:
-        ser = serial.Serial('COM3', timeout=0.1)
+
+    ser = serial.Serial('COM3', timeout=0.1)
 
     try:
         while run[0]:
