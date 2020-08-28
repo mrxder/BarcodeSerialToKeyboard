@@ -6,31 +6,7 @@ import tkinter as tk
 from threading import Thread
 
 
-def test(x):
-    while True:
-        val = x.get()
-        if len(val) > 0:
-            print(x.get())
-        time.sleep(1)
-
-
-window = tk.Tk(className="Scanner Control")
-window.geometry("500x200")
-# window.configure(bg='blue')
-greeting = tk.Label(text="Kostenkonto nr", bg="yellow")
-entry = tk.Entry()
-
-greeting.pack()
-entry.pack()
-
-scannerThread = Thread(target=test, args=(entry,))
-scannerThread.start()
-
-window.mainloop()
-exit()
-
-
-deg Scanner(kostenKontoEntry):
+def Scanner(kostenKontoEntry):
     ser = serial.Serial('COM3', timeout=0.1)
 
     try:
@@ -43,7 +19,15 @@ deg Scanner(kostenKontoEntry):
                 kostenKonto = kostenKontoEntry.get()
 
                 if len(kostenKonto) > 0:
-                    # blub
+                    keyboard.write(line_str)
+                    keyboard.send("right arrow")
+                    time.sleep(0.5)
+                    for i in range(10):
+                        keyboard.send("right arrow")
+                    keyboard.write(kostenKonto)
+                    keyboard.send("down arrow")
+                    for i in range(11):
+                        keyboard.send("left arrow")
                 else:
                     keyboard.write(line_str)
                     keyboard.send("right arrow")
@@ -61,3 +45,19 @@ deg Scanner(kostenKontoEntry):
     ser.close()
     print("Closed by end of program")
     exit()
+
+
+window = tk.Tk(className="Scanner Control")
+window.geometry("500x200")
+# window.configure(bg='blue')
+greeting = tk.Label(text="Kostenkonto nr", bg="yellow")
+entry = tk.Entry()
+
+greeting.pack()
+entry.pack()
+
+scannerThread = Thread(target=Scanner, args=(entry,))
+scannerThread.start()
+
+window.mainloop()
+exit()
