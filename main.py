@@ -5,12 +5,16 @@ import time
 import tkinter as tk
 from threading import Thread
 
+debug = True
 
-def Scanner(kostenKontoEntry):
-    ser = serial.Serial('COM3', timeout=0.1)
+
+def Scanner(kostenKontoEntry, run):
+
+    if not debug:
+        ser = serial.Serial('COM3', timeout=0.1)
 
     try:
-        while True:
+        while run[0]:
             line = ser.readline()
             if len(line) > 0:
                 line_str = line.decode('utf-8')  # last char is /n
@@ -56,8 +60,9 @@ entry = tk.Entry()
 greeting.pack()
 entry.pack()
 
-scannerThread = Thread(target=Scanner, args=(entry,))
+run = [True]
+scannerThread = Thread(target=Scanner, args=(entry, run,))
 scannerThread.start()
 
 window.mainloop()
-exit()
+run[0] = False
