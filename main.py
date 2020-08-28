@@ -28,11 +28,14 @@ try:
             print(line_str)
             keyboard.write(line_str)
             keyboard.send("right arrow")
-            keyboard.send("down arrow")
             time.sleep(0.5)
-            keyboard.send("left arrow")
-            keyboard.send("left arrow")
-            keyboard.send("left arrow")
+            for i in range(10):
+                keyboard.send("right arrow")
+            keyboard.write("20732")
+            keyboard.send("down arrow")
+            
+            for i in range(11):
+                keyboard.send("left arrow")
 except:
 
     ser.close()
