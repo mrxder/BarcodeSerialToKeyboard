@@ -10,12 +10,15 @@ if platform.system() == "Darwin":
     DOWN_KEY = 125
 
 if platform.system() == "Windows":
-    LEFT_KEY = 75
-    UP_KEY = 72
-    RIGHT_KEY = 72
-    DOWN_KEY = 80
+    LEFT_KEY = "left arrow"
+    UP_KEY = "up arrow"
+    RIGHT_KEY = "right arrow"
+    DOWN_KEY = "down arrow"
 
-ser = serial.Serial('/dev/tty.usbmodemS_N__G16M02291', timeout=1)
+print(LEFT_KEY)
+
+#ser = serial.Serial('/dev/tty.usbmodemS_N__G16M02291', timeout=1)
+ser = serial.Serial('COM3', timeout=1)
 
 while True:
     line = ser.readline()
@@ -23,9 +26,10 @@ while True:
         line_str = line.decode('utf-8')[:-1]  # last char is /n
 
         keyboard.write(line_str)
-        keyboard.send(124)
-        keyboard.send(123)
-        keyboard.send(123)
+        keyboard.send("left arrow")
+        keyboard.send("left arrow")
+        keyboard.send("left arrow")
+        keyboard.send("left arrow")
         break
 
 ser.close()
