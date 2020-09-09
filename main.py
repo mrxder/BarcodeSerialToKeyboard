@@ -11,6 +11,8 @@ def Scanner(kostenKontoEntry, run):
 
     ser = serial.Serial('COM3', timeout=0.1)
 
+    multi = 1.0
+
     try:
         while run[0]:
             line = ser.readline()
@@ -20,24 +22,29 @@ def Scanner(kostenKontoEntry, run):
 
                 kostenKonto = kostenKontoEntry.get()
 
+                keyboard.write(line_str)
+                time.sleep(0.2 * multi)
+                
+                for i in range(8):
+                    keyboard.send("tab")
+                    time.sleep(0.05 * multi)
+                
                 if len(kostenKonto) > 0:
-                    keyboard.write(line_str)
-                    keyboard.send("right arrow")
-                    time.sleep(0.5)
-                    for i in range(10):
-                        keyboard.send("right arrow")
                     keyboard.write(kostenKonto)
-                    keyboard.send("down arrow")
-                    for i in range(11):
-                        keyboard.send("left arrow")
-                else:
-                    keyboard.write(line_str)
-                    keyboard.send("right arrow")
-                    keyboard.send("down arrow")
-                    time.sleep(0.5)
-                    keyboard.send("left arrow")
-                    keyboard.send("left arrow")
-                    keyboard.send("left arrow")
+                    keyboard.send("enter")
+                    time.sleep(0.2 * multi)
+
+                keyboard.send("down arrow")
+                time.sleep(0.05 * multi)
+
+                numOfBackTab = 10
+                if len(kostenKonto) > 0:
+                    numOfBackTab = 11
+
+                for i in range(numOfBackTab):
+                    keyboard.send("shift + tab")
+                    time.sleep(0.05 * multi)
+
     except:
 
         ser.close()
